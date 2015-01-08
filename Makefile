@@ -1,9 +1,12 @@
-FLAGS = -g -o app -lsfml-graphics -lsfml-window -lsfml-system 
+FLAGS = -lsfml-graphics -lsfml-window -lsfml-system 
+BPATH = ./Build/
+SPATH = ./src/
+INAME = main.cpp
 
 all : out compile
 
-out : main.cpp
-	g++ -c main.cpp
+out : $(SPATH)main.cpp
+	g++ -c $(SPATH)main.cpp -o $(BPATH)main.o
 
-compile: main.o
-	g++ main.o $(FLAGS) 
+compile: $(BPATH)main.o
+	g++ -o $(BPATH)app $(BPATH)main.o $(FLAGS) 
