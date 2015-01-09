@@ -118,7 +118,7 @@ public:
 
 
 int main(){
-	Game game(800,1200,50,3);
+	Game game(800,1200,8,3);
 	game.start();
 	return 0;
 }

@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 #define TwT std::pair<int,sf::Texture*>
@@ -13,8 +14,8 @@
 //
 class ObjectTextures{
 private:
-	// its wiser to store pointers to Textures in vector than Textures.
-	std::vector<sf::Texture*> Textures;
+	// changed to shared pointers :P
+	std::vector<std::shared_ptr<sf::Texture>> Textures;
 public:	
 	ObjectTextures();
 
@@ -23,13 +24,13 @@ public:
 
 	//store all textrue precised in PATH file;
 	ObjectTextures(std::string PATH);
-
+/*
 	ObjectTextures( const ObjectTextures& other );
 
 	ObjectTextures  operator=( const ObjectTextures& other);
 
 	~ObjectTextures();
-
+*/
 	//return random Type and Texture*
 	TwT random();
 

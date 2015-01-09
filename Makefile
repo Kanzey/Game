@@ -1,4 +1,5 @@
-FLAGS = -lsfml-graphics -lsfml-window -lsfml-system 
+FLAGS = -O2 -lsfml-graphics -lsfml-window -lsfml-system 
+STD = -std=c++11
 BPATH = ./Build/
 SPATH = ./src/
 INAME = Game.cpp
@@ -11,7 +12,7 @@ $(BPATH):
 	mkdir -p $(BPATH);
 
 out : $(SPATH)$(INAME)
-	g++ -c $(SPATH)$(INAME) -o $(BPATH)main.o
+	g++ -c $(SPATH)$(INAME) -o $(BPATH)main.o $(STD)
 
 compile: $(BPATH)main.o
 	g++ -o $(BPATH)app $(BPATH)main.o $(FLAGS) 
