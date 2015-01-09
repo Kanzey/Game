@@ -11,7 +11,6 @@
 //
 // Class used to manage textures of objects.
 //
-//
 class ObjectTextures{
 private:
 	// its wiser to store pointers to Textures in vector than Textures.

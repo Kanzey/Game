@@ -9,68 +9,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include "Cell.cpp"
 #include "ObjectTextures.cpp"
-
-#define PI 3.14159265
-
-
-sf::RectangleShape createLine(sf::Vector2f A, sf::Vector2f B, int thicknes){
-    double x = A.x-B.x;
-    double y = A.y-B.y;
-    double r = hypot(x,y);
-    double rotate = atan2(x,y);
-    sf::RectangleShape line(sf::Vector2f(r,thicknes));
-    std::cout << x << " " << y << std::endl;
-    line.rotate(270 - rotate*180/PI);
-    line.setPosition(A);
-    line.move(-thicknes*y/r/2, thicknes*x/r/2);
-    return line;
-}
-
-int calcDist( sf::Vector2f A, sf::Vector2f B){
-    return hypot(A.x-B.x, A.y-B.y);
-}
-
-void drawLine( std::vector<sf::Vector2f> & line, sf::RenderWindow & window, int thicknes){
-    for(std::vector<sf::Vector2f>::iterator i = line.begin(); i!= line.end()-1; ++i) {
-        window.draw( createLine( *i, *(i+1), thicknes ) );
-    }
-}
-
-
-class Cell:public sf::Sprite{
-	int _type;
-	int _state;
-	int _wasVisted;
-	int _size;
-        sf::Vector2f _endPosition;
-public:
-
-	Cell(): _state(1), _wasVisted(0) {};
-	int getState(){ return _state; }
-	int wasVisited(){ return _wasVisted;}
-	int getType(){ return _type; }
-        int getSize(){ return _size; }
-        sf::Vector2f getEndPositon(){ return _endPosition; };
-        void setEndPosition(sf::Vector2f pos){ _endPosition = pos; }
-	void setSize(int s) { _size = s; }
-	void setState(int s){ _state = s; }
-	void setWasVisted(int v){ _wasVisted = v; }
-	void setType( int t ){ _type = t; }
-        void updateScale(){
-            float scale = float(_size)/ float(getTexture()->getSize().x); 
-            setScale( scale, scale );
-        }
-	void set( std::pair<int,sf::Texture*> par){
-		setType(par.first); 
-		//Texturere.loadFromFile( c.c_str() );
-		setTexture(*par.second);
-                updateScale();
-	}
-        sf::Vector2f getCenter(){
-            return getPosition() + sf::Vector2f( getSize()/2, getSize()/2);
-        }
-};
+#include "GeneralUtilities.cpp"
+#include "CurveLine.cpp"
 
 class ColumnOfCells: public std::vector<Cell>{
 	int _isFull;
@@ -289,52 +231,6 @@ public:
         
 }; 
 
-class CurveLine{
-public:
-    std::vector<Cell*> cells;
-    std::vector<sf::RectangleShape> lines;
-    
-    void addCell(Cell* cell){
-        cell->setWasVisted(1);
-        cells.push_back(cell);
-        int size = cells.size();
-        if(size > 1){
-            lines.push_back(sf::RectangleShape());
-            lines.back() = createLine( cells[size-1]->getCenter(), cells[size-2]->getCenter(),cells[size-1]->getSize()/8  );
-        }
-    }
-    void pop_back(){
-        if(cells.size()>1){
-            lines.pop_back();
-        }
-        cells.back()->setWasVisted( 0 );
-        cells.pop_back();
-    }
-    void draw(sf::RenderWindow & window){
-        for(std::vector<sf::RectangleShape>::iterator i = lines.begin(); i != lines.end(); ++i)
-            window.draw(*i);
-    }
-    Cell* back(){
-        return cells.back();
-    }
-    void clear(){
-        for(std::vector<Cell*>::iterator i = cells.begin(); i!= cells.end(); ++i)
-            (*i)->setWasVisted(0);
-        lines.clear();
-        cells.clear();
-    }
-    void drawLast(sf::RenderWindow & window){
-        window.draw(lines.back());
-    }
-    int type(){ return cells[0]->getType(); }
-    void colect(){
-        for(std::vector<Cell*>::iterator i = cells.begin(); i!= cells.end(); ++i)
-            (*i)->setState(0);
-    }
-    
-};
-
-
 class Game{
 public:
 	sf::RenderWindow window;
@@ -353,7 +249,8 @@ public:
 	}
         //function handling game events and response to them;
 	void start(){
-		board.init();		
+		board.init();
+		//board.update();	
             sf::Vector2f cursor;
 		sf::Event event;
 		int cflag = 0;
@@ -439,7 +336,7 @@ public:
 
 
 int main(){
-	Game game(800,1200,8,3);
+	Game game(800,1200,5,3);
 	game.start();
 	return 0;
 }
