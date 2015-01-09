@@ -20,11 +20,13 @@ private:
 public:
 
 	Cell(): _state(1), _wasVisted(0) {};
+
 	int getState();
 	int wasVisited();
 	int getType();
         int getSize();
-        sf::Vector2f getEndPositon();
+	int isOnPlace();
+        sf::Vector2f getEndPosition();
         void setEndPosition(sf::Vector2f pos);
 	void setSize(int s);
 	void setState(int s);

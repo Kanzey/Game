@@ -1,5 +1,11 @@
 #include "Cell.hpp"
 
+int Cell::isOnPlace(){
+	if(  abs( getPosition().y - getEndPosition().y ) > getSize()/10 ) return 0;
+	setPosition( getEndPosition() );
+	return 1;
+}
+
 int Cell::getState(){
 	return _state; 
 }
@@ -16,7 +22,7 @@ int Cell::getSize(){
 	return _size;
 }
 
-sf::Vector2f Cell::getEndPositon(){
+sf::Vector2f Cell::getEndPosition(){
 	return _endPosition;
 }
 

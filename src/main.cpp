@@ -9,77 +9,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-#include "Cell.cpp"
-#include "ObjectTextures.cpp"
+#include "Board/Cell.cpp"
+#include "Board/ObjectTextures.cpp"
+#include "ColumnOfCells.cpp"
 #include "GeneralUtilities.cpp"
 #include "CurveLine.cpp"
 
-class ColumnOfCells: public std::vector<Cell>{
-	int _isFull;
-public:
-	ColumnOfCells(int n) : std::vector<Cell>(n) { }
-
-	void draw(sf::RenderWindow & window){
-            for (ColumnOfCells::iterator i = begin(); i != end(); ++i){
-                if( abs(i->getPosition().y - i->getEndPositon().y ) > i->getSize()/10 ){
-                    i->move(0,i->getSize()/10);
-                }else{
-                    i->setPosition( i->getEndPositon());
-                }
-			window.draw(*i);
-            }
-	}
-        void draw(int type, sf::RenderWindow & window){
-            for(ColumnOfCells::iterator i = begin(); i != end(); ++i)
-                if(i->getType() == type) window.draw(*i);
-        }
-	void setPosition(sf::Vector2f start, int num, int size ){
-		int k = 0;
-		sf::Vector2f position;
-		for (ColumnOfCells::iterator i = begin(); i != end(); ++i)
-		{
-			position.x = start.x + num*size;
-			position.y = start.y + k++*size;
-			//std::cout << position.x << " " << position.y << std::endl;
-			i->setPosition( position );
-                        i->setEndPosition( position );
-			i->setSize(size);
-		}
-	}
-        void updateScale(){
-            for(ColumnOfCells::iterator i = begin(); i != end(); ++i)
-                i->updateScale();
-        }
-	int isFull() { return _isFull == size(); }
-	void setIsFull(int f){ _isFull = f;}
-        void update( ObjectTextures & objectTextures ){
-            std::vector<Cell*> buff;
-            for(ColumnOfCells::reverse_iterator ri = rbegin(); ri != rend(); ++ri){
-                if( ri->getState() != 0 ) {
-                    buff.push_back( &(*ri));
-                    ri->setState(1);
-                }
-            }
-            std::vector<Cell*>::iterator it = buff.begin();
-            int s = 1;
-            ColumnOfCells::reverse_iterator ri = rbegin();
-            sf::Vector2f end;
-                        while(it != buff.end() ){
-                        end = ri->getEndPositon();
-                        *ri = *(*it);
-                        ri->setEndPosition( end );
-                        ri++; it++;
-                    }
-            while(ri != rend()){
-                ri->set(objectTextures.random());
-                ri->setState(1);
-                ri->setWasVisted(0);
-                sf::Vector2f pos = ri->getPosition();
-                ri->setPosition(pos.x,-(s++)*ri->getSize());
-                ++ri;
-            }
-        }
-};
 
 class GridOfCells: public std::vector<ColumnOfCells> {
 public:
