@@ -4,7 +4,6 @@
     <df root="." name="0">
       <df name="src">
         <in>Background.cpp</in>
-        <in>Background.h</in>
         <in>Background.hpp</in>
         <in>Game.cpp</in>
       </df>
@@ -47,8 +46,6 @@
         </makeTool>
       </makefileType>
       <item path="src/Background.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Background.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Background.hpp" ex="false" tool="3" flavor2="0">
       </item>
