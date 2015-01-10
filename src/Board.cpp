@@ -2,7 +2,7 @@
 
 Board::Board(sf::RenderWindow* window, sf::Vector2f start, int cellSize, int num, int numOfPices  )
 	:num(num), window(window), start(start), size(num*cellSize), cellSize(cellSize) {
-	objectTextures = ObjectTextures(3,"../Textures/Textures.txt");
+	objectTextures = ObjectTextures(4,"../Textures/Textures.txt");
 	gridOfCells = GridOfCells( num );
 	gridOfCells.setPosition(start,cellSize);
 }

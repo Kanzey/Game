@@ -1,3 +1,4 @@
 ../Textures/cpp.png
-../Textures/java.png
+../Textures/python.png
 ../Textures/ruby.png
+../Textures/firefox2.png

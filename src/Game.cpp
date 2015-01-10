@@ -12,15 +12,17 @@
 #include "GeneralUtilities.cpp"
 #include "Board.cpp"
 #include "CurveLine.cpp"
+#include "Background.cpp"
 
 class Game{
 public:
+        Background background;
 	sf::RenderWindow window;
 	sf::Texture windowTexture, backgroundTexture;
 	sf::Sprite windowSprite;
         CurveLine line;
 	Board board;
-	Game( int x, int y, int cross, int numOfPices) {
+	Game( int x, int y, int cross, int numOfPices) : background("../Textures/grass.jpg", "../Textures/wood.jpg") {
 		window.create(sf::VideoMode(x ,y), "Game" );
 		int size =	std::min(x,y)/(cross+2);
                 int sizex = (x-cross*size)/2;
@@ -28,6 +30,7 @@ public:
 		board = Board(&window, sf::Vector2f(sizex,sizey), size, cross, numOfPices);
 		windowTexture.create(x,y);
 		windowSprite.setTexture(windowTexture);
+                background.create( sf::Vector2i(x,y) ,board.start , size  ,cross);
 	}
         //function handling game events and response to them;
 	void start(){
@@ -66,7 +69,7 @@ public:
                                         board.resize(x, y);
                                         windowTexture.create(x, y);
                                         windowSprite.setTextureRect(sf::IntRect(0, 0, x, y));
-                                        //board.createBackground(&backgroundTexture);
+                                        background.create( static_cast<sf::Vector2i>( window.getSize() ), board.start, board.cellSize, board.num);
                                 }
                                 if( cflag == 1)
                                    if(event.type == sf::Event::MouseMoved)
@@ -87,6 +90,7 @@ public:
         //function higlight elements of given type and store that image in windowTexture; 
         void highlight(int type){
             window.clear(sf::Color(0,0,0,0));
+            background.draw( window );
             board.draw();
             windowTexture.update( window );
             windowSprite.setColor(sf::Color(90,90,90,255));
@@ -108,8 +112,9 @@ public:
 		window.display();
 	}
 	void draw(){
-            
+                
 		window.clear(sf::Color(0,0,0,0));
+                background.draw(window);
 		board.draw();
 		window.display();
 	}
@@ -118,7 +123,7 @@ public:
 
 
 int main(){
-	Game game(800,1200,8,3);
+	Game game(500,500,8,3);
 	game.start();
 	return 0;
 }

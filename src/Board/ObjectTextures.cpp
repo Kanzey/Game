@@ -20,6 +20,7 @@ ObjectTextures::ObjectTextures( std::string PATH ){
 	sf::Texture texture;
 	while( getline(file,tmp) ){
 		texture.loadFromFile( tmp.c_str() );
+                texture.setSmooth(true);
 		Textures.push_back( std::make_shared<sf::Texture>( texture ) );
 	}
 	srand(time(NULL));
