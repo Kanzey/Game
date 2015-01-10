@@ -1,3 +1,0 @@
-mkdir -p ./Build/;
-g++ -c ./src/Game.cpp -o ./Build/main.o -std=c++11
-g++ -o ./Build/app ./Build/main.o -O2 -lsfml-graphics -lsfml-window -lsfml-system  
