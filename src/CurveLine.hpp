@@ -9,17 +9,18 @@ private:
     
 public:
 	//return line type. Depends on type of first added Cell;
-    int type();
+    inline int type();
 	//return poiter to last Cell in conected line. U. 
-    Cell* back();
+    inline Cell* back();
 
-	void clear();
-	void colect();
-	void pop_back();
+    inline void clear();
+    inline void colect();
+    void pop_back();
     void addCell(Cell* cell);
-    void draw(sf::RenderWindow & window);
-    void drawLast(sf::RenderWindow & window);
-
+    inline void draw(sf::RenderWindow & window);
+    inline void drawLast(sf::RenderWindow & window);
+    inline int endConection( int minConection );
+    
 };
 
 #endif

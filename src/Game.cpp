@@ -34,6 +34,7 @@ public:
 	}
         //function handling game events and response to them;
 	void start(){
+            unsigned long long points = 0;
 		board.init();
 		//board.update();	
             sf::Vector2f cursor;
@@ -57,8 +58,9 @@ public:
 				}
 				if(event.type == sf::Event::MouseButtonReleased){
                                     if( event.mouseButton.button == sf::Mouse::Left ){
-                                        line.colect();
-                                        line.clear();
+                                        int p = line.endConection(3);
+                                        points += std::pow(1.6,p);
+                                        std::cout << points << std::endl;
                                         cleanStaticTexture();
 					cflag = 0;
                                         board.update();
@@ -123,7 +125,7 @@ public:
 
 
 int main(){
-	Game game(500,500,8,3);
+	Game game(500,500,8,4);
 	game.start();
 	return 0;
 }

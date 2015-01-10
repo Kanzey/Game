@@ -18,29 +18,39 @@ void CurveLine::pop_back(){
     cells.pop_back();
 }
 
-void CurveLine::draw(sf::RenderWindow & window){
+inline void CurveLine::draw(sf::RenderWindow & window){
     for(std::vector<sf::RectangleShape>::iterator i = lines.begin(); i != lines.end(); ++i)
 		window.draw(*i);
 }
 
-Cell* CurveLine::back(){
+inline Cell* CurveLine::back(){
         return cells.back();
 }
 
-void CurveLine::clear(){
+inline void CurveLine::clear(){
 	for(std::vector<Cell*>::iterator i = cells.begin(); i!= cells.end(); ++i)
 		(*i)->setWasVisted(0);
 	lines.clear();
 	cells.clear();
 }
 
-void CurveLine::drawLast(sf::RenderWindow & window){
+inline void CurveLine::drawLast(sf::RenderWindow & window){
 	window.draw(lines.back());
 }
 
-int CurveLine::type(){ return cells[0]->getType(); }
+inline int CurveLine::type(){ return cells[0]->getType(); }
 
-void CurveLine::colect(){
+inline void CurveLine::colect(){
 	for(std::vector<Cell*>::iterator i = cells.begin(); i!= cells.end(); ++i)
 		(*i)->setState(0);
+}
+
+inline int CurveLine::endConection(int minConection ){
+    int tmp = 0;
+    if( cells.size() >= minConection ){
+        colect();
+        tmp = cells.size();
+    }
+    clear();
+    return tmp;
 }
