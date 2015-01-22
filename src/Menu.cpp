@@ -28,16 +28,10 @@ inline void Menu::loadTextures(std::string texPath1) {
 }
 
 inline void Menu::resize(int x, int y) {
-    size = sf::Vector2f(x, y);
     create(x, y);
 }
 
-inline void Menu::resize(const sf::Vector2u & size){
-    this->size = static_cast<sf::Vector2f>(size);
-    create(size.x, size.y);
-}
-
-inline void Menu::create(const sf::Vector2u & size) {
+inline void Menu::create(const sf::Vector2i & size) {
     create(size.x, size.y);
 }
 
@@ -52,6 +46,7 @@ void Menu::create(int x, int y) {
         }
         sprite.setPosition(sprite.getPosition().x + texture1.getSize().x, 0);
     }
+    std::cout << renderTexture.getSize().x<< " " << renderTexture.getSize().y << std::endl;
     placeButtons(x, y);
     startBut.draw(renderTexture);
     scoreBut.draw(renderTexture);
@@ -61,7 +56,7 @@ void Menu::create(int x, int y) {
 
 void Menu::placeButtons(int x, int y) {
     sf::FloatRect rect = startBut.sprite.getGlobalBounds();
-
+  
     float scale = std::min(4 * x / (8 * rect.width), 4 * y / (24 * rect.height));
     startBut.resize(sf::Vector2f(scale, scale));
     scoreBut.resize(sf::Vector2f(scale, scale));
@@ -82,7 +77,7 @@ inline void Menu::draw(sf::RenderWindow& window) {
 void Menu::start(sf::RenderWindow & window) {
     sf::Event event;
     sf::Vector2f cursor;
-    create( window.getSize() );
+    create( window.getSize().x, window.getSize().y );
 
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
@@ -97,8 +92,10 @@ void Menu::start(sf::RenderWindow & window) {
                     else if( quitBut.getGlobalBounds().contains( cursor ) ) quitBut.onClick(window);
                 }
             }
-            if (event.type == sf::Event::Resized ){
-                resize( event.size.width, event.size.height );
+            if ( event.type == sf::Event::Resized ){
+                int x = event.size.width, y = event.size.height;
+                resize( x , y );
+                window.setView(sf::View(sf::FloatRect(0,0,x,y)));
             }
         }
         window.clear();

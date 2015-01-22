@@ -3,7 +3,6 @@
 
 class Menu {
 private:
-    sf::Vector2f size;
     sf::Texture texture1, startTex, scoreTex, quitTex;
     StartButton startBut;
     ScoreButton scoreBut;
@@ -17,8 +16,7 @@ public:
     inline void loadTextures(std::string texPath1);
     void create(int x, int y);
     inline void resize(int x, int y);
-    inline void resize(const sf::Vector2u & size);
-    inline void create(const sf::Vector2u & size);
+    inline void create(const sf::Vector2i & size);
     inline void draw(sf::RenderWindow & window);
     void placeButtons(int x, int y);
     void start(sf::RenderWindow & window);
