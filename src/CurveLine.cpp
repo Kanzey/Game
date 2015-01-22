@@ -45,7 +45,7 @@ inline void CurveLine::colect(){
 		(*i)->setState(0);
 }
 
-inline int CurveLine::endConection(int minConection ){
+inline int CurveLine::endConection( int minConection ){
     int tmp = 0;
     if( cells.size() >= minConection ){
         colect();

@@ -1,7 +1,7 @@
 #include "Cell.hpp"
 
 int Cell::isOnPlace(){
-	if(  abs( getPosition().y - getEndPosition().y ) > getSize()/10 ) return 0;
+	if(  abs( getPosition().y - getEndPosition().y ) > getSize()/8 ) return 0;
 	setPosition( getEndPosition() );
 	return 1;
 }

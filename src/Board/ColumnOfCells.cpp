@@ -2,7 +2,7 @@
 
 void ColumnOfCells::draw(sf::RenderWindow & window){
 	for (ColumnOfCells::iterator i = begin(); i != end(); ++i){
-		if( ! i->isOnPlace() ) i->move(0,i->getSize()/10);
+		if( ! i->isOnPlace() ) i->move(0,i->getSize()/8);
 		window.draw(*i);
 	}
 }
