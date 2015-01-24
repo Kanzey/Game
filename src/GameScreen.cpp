@@ -32,14 +32,14 @@ GameScreen::GameScreen(int x, int y, int cross, int numOfPices, sf::RenderWindow
    // SetCenterPosition(sf::FloatRect(x,y,sizex,sizey));
 }
 
-void GameScreen::start() {
+void GameScreen::start(int maxMoves) {
 
     board.init();
     sf::Vector2f cursor;
     sf::Event event;
-    int cflag = 0;
+    int cflag = 0, madeMoves = 0;
 
-    while (window.isOpen()) {
+    while (window.isOpen() && madeMoves < maxMoves) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
@@ -59,8 +59,9 @@ void GameScreen::start() {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     int p = line.endConection(3);
                     if (p) {
-                        Score += std::pow(1.6, p);
+                        score += std::pow(1.6, p);
                         updateScoreText();
+                        madeMoves++;
                     }
                     cleanStaticTexture();
                     cflag = 0;
@@ -88,6 +89,7 @@ void GameScreen::start() {
         }
         if (cflag) staticDraw();
         else draw();
+        if( madeMoves >= maxMoves) end();
     }
 }
 
@@ -129,12 +131,12 @@ void GameScreen::draw() {
 void GameScreen::initScoreText(){
     scoreFont.loadFromFile("../arial.ttf");
     scoreText.setFont( scoreFont );
-    scoreText.setString("00000000");
-    Score = 0;
+    scoreText.setString("0");
+    score = 0;
 }
 
 void GameScreen::updateScoreText(){
-    scoreText.setString( std::to_string(Score) );
+    scoreText.setString( std::to_string(score) );
 }
 
 void GameScreen::SetCenterPosition(const sf::FloatRect & bounds){
@@ -142,4 +144,8 @@ void GameScreen::SetCenterPosition(const sf::FloatRect & bounds){
     float x = bounds.left + (bounds.width - textBounds.width)/2;
     float y = bounds.top + (bounds.height -textBounds.height)/2;
     scoreText.setPosition( x, y  );
+}
+
+void GameScreen::end(){
+    saveScore( Score("Player", score));
 }

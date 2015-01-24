@@ -10,7 +10,7 @@ void StartButton::onClick(sf::RenderWindow& renderWindow){
 
 void StartButton::start(sf::RenderWindow & renderWindow){
     GameScreen gameScreen( renderWindow.getSize().x, renderWindow.getSize().y, 8, 4, renderWindow );
-    gameScreen.start();
+    gameScreen.start(maxMoves);
 }
 
 void ScoreButton::onClick(sf::RenderWindow& renderWindow){

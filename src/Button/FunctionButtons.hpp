@@ -15,6 +15,8 @@ public:
     StartButton() : Button() {}
     StartButton(sf::Texture & texture) : Button(texture) { }
     void onClick( sf::RenderWindow & renderWindow);
+    
+    int maxMoves;
 };
 
 class ScoreButton : public Button{

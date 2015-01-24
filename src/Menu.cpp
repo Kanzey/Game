@@ -15,6 +15,7 @@
 
 Menu::Menu(std::string texPath1) {
     loadTextures(texPath1);
+    startBut.maxMoves = 10;
 }
 
 inline void Menu::loadTextures(std::string texPath1) {
