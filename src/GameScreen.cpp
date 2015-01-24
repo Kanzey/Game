@@ -6,6 +6,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -19,6 +20,7 @@
 GameScreen::GameScreen(int x, int y, int cross, int numOfPices, sf::RenderWindow & window) :
     window(window),
     background("../Textures/grass.jpg", "../Textures/wood.jpg"),
+    scoreText(),
     board(&window, sf::Vector2f((x - cross * (std::min(x, y) / (cross + 2))) / 2, (y - cross * (std::min(x, y) / (cross + 2))) / 2), std::min(x, y) / (cross + 2), cross, numOfPices){
     int size = std::min(x, y) / (cross + 2);
     int sizex = (x - cross * size) / 2;
@@ -26,11 +28,12 @@ GameScreen::GameScreen(int x, int y, int cross, int numOfPices, sf::RenderWindow
     windowTexture.create(x, y);
     windowSprite.setTexture(windowTexture);
     background.create(sf::Vector2i(x, y), board.start, size, cross);
+    initScoreText();
+   // SetCenterPosition(sf::FloatRect(x,y,sizex,sizey));
 }
 
 void GameScreen::start() {
 
-    unsigned long long points = 0;
     board.init();
     sf::Vector2f cursor;
     sf::Event event;
@@ -55,8 +58,10 @@ void GameScreen::start() {
             if (event.type == sf::Event::MouseButtonReleased) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     int p = line.endConection(3);
-                    if (p) points += std::pow(1.6, p);
-                    std::cout << points << std::endl;
+                    if (p) {
+                        Score += std::pow(1.6, p);
+                        updateScoreText();
+                    }
                     cleanStaticTexture();
                     cflag = 0;
                     board.update();
@@ -109,6 +114,7 @@ void GameScreen::staticDraw() {
     window.clear();
     window.draw(windowSprite);
     line.draw(window);
+    window.draw(scoreText);
     window.display();
 }
 
@@ -116,7 +122,24 @@ void GameScreen::draw() {
     window.clear(sf::Color(0, 0, 0, 0));
     background.draw(window);
     board.draw();
+    window.draw(scoreText);
     window.display();
 }
 
+void GameScreen::initScoreText(){
+    scoreFont.loadFromFile("../arial.ttf");
+    scoreText.setFont( scoreFont );
+    scoreText.setString("00000000");
+    Score = 0;
+}
 
+void GameScreen::updateScoreText(){
+    scoreText.setString( std::to_string(Score) );
+}
+
+void GameScreen::SetCenterPosition(const sf::FloatRect & bounds){
+    sf::FloatRect textBounds = scoreText.getGlobalBounds();
+    float x = bounds.left + (bounds.width - textBounds.width)/2;
+    float y = bounds.top + (bounds.height -textBounds.height)/2;
+    scoreText.setPosition( x, y  );
+}

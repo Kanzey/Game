@@ -10,14 +10,21 @@ private:
     sf::Sprite windowSprite;
     CurveLine line;
     Board board;
+    int Score;
+    sf::Font scoreFont;
+    sf::Text scoreText;
+    
 public:
     GameScreen(int x, int y, int cross, int numOfPices, sf::RenderWindow & window);
-
     void start();
     void cleanStaticTexture();
     void highlight(int type);
     void staticDraw();
     void draw();
+    
+    void initScoreText();
+    void SetCenterPosition( const sf::FloatRect & bounds );
+    void updateScoreText();
 
 };
 
