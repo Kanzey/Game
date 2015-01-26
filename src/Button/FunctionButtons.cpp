@@ -3,6 +3,7 @@
 #include "Button.cpp"
 #include "FunctionButtons.hpp"
 #include "../GameScreen.cpp"
+#include "../Scoreboard.cpp"
 
 void StartButton::onClick(sf::RenderWindow& renderWindow){
    start( renderWindow );
@@ -14,7 +15,8 @@ void StartButton::start(sf::RenderWindow & renderWindow){
 }
 
 void ScoreButton::onClick(sf::RenderWindow& renderWindow){
-    std::cout<< "Not implemented jet\n" << std::endl;
+    Scoreboard scoreboard(renderWindow);
+    scoreboard.start();
 }
 
 void QuitButton::onClick(sf::RenderWindow& renderWindow){

@@ -37,25 +37,26 @@ inline void Menu::create(const sf::Vector2i & size) {
 }
 
 void Menu::create(int x, int y) {
-    sf::Sprite sprite(texture1);
-    renderTexture.create(x, y);
+    if( renderTexture.getSize().x < x || renderTexture.getSize().y < y ){
+        sf::Sprite sprite(texture1);
+        renderTexture.create(x, y);
 
-    while (sprite.getPosition().x < x) {
-        while (sprite.getPosition().y < y) {
-            renderTexture.draw( sprite );
-            sprite.move(0, texture1.getSize().y);
+        while (sprite.getPosition().x < x) {
+            while (sprite.getPosition().y < y) {
+                renderTexture.draw( sprite );
+                sprite.move(0, texture1.getSize().y);
+            }
+            sprite.setPosition(sprite.getPosition().x + texture1.getSize().x, 0);
         }
-        sprite.setPosition(sprite.getPosition().x + texture1.getSize().x, 0);
+        renderTexture.display();
+        renderSprite.setTexture(renderTexture.getTexture(), true);
     }
-    std::cout << renderTexture.getSize().x<< " " << renderTexture.getSize().y << std::endl;
+    //std::cout << renderTexture.getSize().x<< " " << renderTexture.getSize().y << std::endl;
     placeButtons(x, y);
-    startBut.draw(renderTexture);
-    scoreBut.draw(renderTexture);
-    quitBut.draw(renderTexture);
-    renderTexture.display();
+
 }
 
-void Menu::placeButtons(int x, int y) {
+void Menu::placeButtons(float x, float y) {
     sf::FloatRect rect = startBut.sprite.getGlobalBounds();
   
     float scale = std::min(4 * x / (8 * rect.width), 4 * y / (24 * rect.height));
@@ -72,7 +73,7 @@ void Menu::placeButtons(int x, int y) {
 }
 
 inline void Menu::draw(sf::RenderWindow& window) {
-    window.draw(sf::Sprite(renderTexture.getTexture()));
+    window.draw( renderSprite );
 }
 
 void Menu::start(sf::RenderWindow & window) {
@@ -101,6 +102,9 @@ void Menu::start(sf::RenderWindow & window) {
         }
         window.clear();
         draw( window );
+        startBut.draw(window);
+        scoreBut.draw(window);
+        quitBut.draw(window);
         window.display();
     }
 }

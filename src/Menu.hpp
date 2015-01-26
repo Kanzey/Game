@@ -8,6 +8,7 @@ private:
     ScoreButton scoreBut;
     QuitButton quitBut;
     sf::RenderTexture renderTexture;
+    sf::Sprite renderSprite;
     ObjectTextures objectTextures;
     
 public:
@@ -18,7 +19,7 @@ public:
     inline void resize(int x, int y);
     inline void create(const sf::Vector2i & size);
     inline void draw(sf::RenderWindow & window);
-    void placeButtons(int x, int y);
+    void placeButtons(float x, float y);
     void start(sf::RenderWindow & window);
 };
 
